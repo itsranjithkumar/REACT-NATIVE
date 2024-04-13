@@ -134,9 +134,10 @@ const secretKey = generateSecretKey();
 app.post("/login",async(req,res) => {
     try{
         const {email,password} = req.body;
-
+        console.log("aaaaaaaaaaaaaa11999999999999",req.body)
         //check if the user exists
         const user = await User.findOne({email});
+        console.log(user)
         if(!user){
             return res.status(401).json({message:"Invalid email or password"});
         }
@@ -145,11 +146,13 @@ app.post("/login",async(req,res) => {
         if (user.password !== password){
               return res.status(401).json({message:"Invalid password"});
         }
+        console.log('mmmmmmmmmmmmmmmmmmmmmm')
        //generate a token
-       const token = jwt.sign({userId:user,_id},secretKey);
-
+       const token = jwt.sign({userId:user._id},secretKey);
+        console.log(token)
        res.status(200).json({token});
     }catch (error){
+        console.log(error)
         res.status(500).json({message:"Login Failed"});
     }
 
