@@ -7,12 +7,14 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import axios from 'axios';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -27,11 +29,11 @@ const RegisterScreen = () => {
     };
 
     // send A post request to the backend API
-    axies
-      .post("https://localhost:8000/register", user)
+    console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", user)
+    axios.post("http://192.168.226.149:8000/register", user)
       .then((response) => {
         console.log(response);
-        alert.alert(
+        Alert.alert(
           "Registration Succesfull",
           "you have registered successfully"
         );
@@ -99,7 +101,7 @@ const RegisterScreen = () => {
                 color: "gray",
                 marginVertical: 10,
                 width: 300,
-                fontsize: name ? 16 : 16,
+                fontSize: name ? 16 : 16,
               }}
               placeholder="enter your name"
             />
@@ -129,7 +131,7 @@ const RegisterScreen = () => {
                 color: "gray",
                 marginVertical: 10,
                 width: 300,
-                fontsize: email ? 16 : 16,
+                fontSize: email ? 16 : 16,
               }}
               placeholder="enter your Email"
             />
@@ -155,7 +157,7 @@ const RegisterScreen = () => {
 
             <TextInput
               value={password}
-              onchangeText={(text) => setPassword(text)}
+              onChangeText={(text) => setPassword(text)}
               secureTextEntry={true}
               style={{
                 color: "gray",
@@ -178,7 +180,7 @@ const RegisterScreen = () => {
         >
           <Text>Keep me logged in </Text>
 
-          <Text style={{ color: "#007FFF", fontweight: "500" }}>
+          <Text style={{ color: "#007FFF", fontWeight: "500" }}>
             Forgot Password
           </Text>
         </View>

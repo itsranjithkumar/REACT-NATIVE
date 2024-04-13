@@ -1,8 +1,8 @@
-const mongose = require('mongoose');
+const mongoose = require('mongoose');
 
-const username = new mongoose.schema({
-      Name:{
-        typeString,
+const userSchema = new mongoose.Schema({
+      name:{
+        type:String,
         required:true
     },
     email:{
@@ -10,7 +10,7 @@ const username = new mongoose.schema({
         required:true,
         unique:true
     },
-    password:{
+    password:{ 
         type:String,
         required:true
     },
@@ -18,16 +18,16 @@ const username = new mongoose.schema({
         type:Boolean,
         default:false
     },
-    verficationToken:String,
+    verificationToken:String,
     address:[
         {
-           name:string,
+           name:String,
            mobileNo:String,
            houseNo:String,
            street:String,
            landmark:String,
            city:String,
-           country:string,
+           country:String,
            postalcode:String
         }
     ],
@@ -38,7 +38,7 @@ const username = new mongoose.schema({
         }
     ],
     createdAt:{
-       type:Data,
+       type:Date,
        default:Date.now,
     },
 
