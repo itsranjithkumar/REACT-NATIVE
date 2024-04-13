@@ -50,7 +50,7 @@ const LoginScreens= () => {
                       
                        <AntDesign name="lock1" size={24} color="gray" style = {{marginLeft:8}}/>
  
-                        <TextInput value={password} onChangeText={(text) => setPassword(text)} secureTestEntry={true} style={{color:"gray",marginVertical:10,width:300,fontsize: password ? 16 : 16}} placeholder="enter your Password"/>
+                        <TextInput value={password} onChangeText={(text) => setPassword(text)} secureTextEntry={true} style={{color:"gray",marginVertical:10,width:300,fontsize: password ? 16 : 16}} placeholder="enter your Password"/>
  
                                             
                      </View>

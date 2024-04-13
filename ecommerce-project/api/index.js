@@ -34,7 +34,7 @@ const User = require('./models/user');
 const Order = require('./models/order');
 
 //function to send verification email to the user
-const sendVerificationEmail = (email, token) => {
+const sendVerificationEmail = async (email, verficationToken) => {
       //create a nodemailer transporter
 
       const transporter = modemailer.createTransport({
@@ -44,7 +44,7 @@ const sendVerificationEmail = (email, token) => {
              user:"ranjithkumarms28@gmail.com",
              pass:"ydyi gzdi qovv nogh"
        }
-    })
+    });
 
     //compose the email message
     const mailOptions = {
@@ -52,9 +52,19 @@ const sendVerificationEmail = (email, token) => {
         to:email,
         subject:"Email Verification",
         text : `Please click the following link to verify your email: https://localhost:8000/verify/${verficationToken}`
-}
+};
 
-Nodemailer
+
+//send the email
+try{
+   await transporter.sendMail(mailOptions);
+  }  catch(error){
+     console.log ("Error sending verification email",error);
+   }
+
+};
+
+
 
 //endpoint to register in the app
 app.post("/register",async (req,res)=>{
@@ -82,4 +92,29 @@ app.post("/register",async (req,res)=>{
         res.status(500).json({message:"Registration failer"})
     }
 
+})
+
+
+
+//endpoint to verify the email
+app.get("/verfify/:token",async(req,res) => {
+    try{
+        const token = req.params.token;
+
+        //find the user with the giving verfication token
+        const user = await User.findOne({verficationToken: token });
+        if (user){
+            return res.start(404).json({message:"Invalid verification token"})
+        }
+
+        //Mark the user as verfied
+        user.verfied = true;
+        user.verficationToken = undefined;
+
+        await user.save();
+
+        res.sendStatus(200).json({message:"Email verified successfully"})
+    } catch(error){
+        res.status(500).json({ message: "Email verfication Failed" });
+}
 })
