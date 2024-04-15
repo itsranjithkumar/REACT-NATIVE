@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import LoginScreens from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-import Homescreen from "../screens/Homescreen";
+import HomeScreen from "../screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -19,7 +19,7 @@ const StackNavigator = () => {
       <Tab.Navigator>
         <Tab.Screen
           name="Home"
-          component={Homescreen}
+          component={HomeScreen}
           options={{
             tabBarLabel: "Home",
             tabbarLableStyle: { color: "#008E97" },
@@ -35,7 +35,7 @@ const StackNavigator = () => {
 
         <Tab.Screen
           name="Profile"
-          component={Homescreen}
+          component={HomeScreen}
           options={{
             tabBarLabel: "Profile",
             tabbarLableStyle: { color: "#008E97" },
@@ -52,7 +52,7 @@ const StackNavigator = () => {
 
         <Tab.Screen
           name="Cart"
-          component={Homescreen}
+          component={HomeScreen}
           options={{
             tabBarLabel: "Cart",
             tabbarLableStyle: { color: "#008E97" },
@@ -87,6 +87,11 @@ const StackNavigator = () => {
           name="Main"
           component={BottomTabs}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+        name= "Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
