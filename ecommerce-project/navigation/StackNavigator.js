@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
+import productInfoScreen from "../screens/productInfoScreen";
 
 
 const StackNavigator = () => {
@@ -48,7 +49,7 @@ const StackNavigator = () => {
               ),
           }}
         />
-        
+
 
         <Tab.Screen
           name="Cart"
@@ -65,7 +66,7 @@ const StackNavigator = () => {
               ),
           }}
         />
-         
+
       </Tab.Navigator>
     );
   }
@@ -89,9 +90,11 @@ const StackNavigator = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-        name= "Home"
-        component={HomeScreen}
-        options={{ headerShown: false }}
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Info" component={productInfoScreen} options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

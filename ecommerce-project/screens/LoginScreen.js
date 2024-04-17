@@ -42,7 +42,7 @@ const LoginScreens = () => {
         password: password
     }
 
-    axios.post("http://192.168.226.149:8000/login",user).then((response) => {
+    axios.post("http://192.168.226.90:8000/login",user).then((response) => {
          console.log(response)
          const token = response.data.token;
          AsyncStorage.setItem("authToken",token)
