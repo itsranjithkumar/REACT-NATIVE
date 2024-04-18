@@ -82,7 +82,7 @@ const productInfoScreen = () => {
             <View style={{padding:10}}>
                 <Text style={{fontSize:15,fontWeight:"500"}}>{route?.params?.title}</Text>
 
-                <Text style={{fontSize:18,fontWeight:"600",marginTop:6}}>{route?.params?.price}</Text>
+                <Text style={{fontSize:18,fontWeight:"600",marginTop:6}}>₹{route?.params?.price}</Text>
 
             </View>
 
@@ -102,7 +102,7 @@ const productInfoScreen = () => {
             <Text style={{height:1,borderColor:"#D0D0D0",borderWidth: 1 }}/>
 
             <View style={{padding:10}}>
-                     <Text style={{fontSize:15,fontWeight:"bold",marginVertical:5}}>Total : ₹{route.params.price}</Text>
+                     <Text style={{fontSize:15,fontWeight:"bold",marginVertical:5}}>Total yarn add @reduxjs/toolkit: ₹{route.params.price}</Text>
                      <Text style={{color:"#00CED1"}}>Free delivery Tomorrow by 3 PM.Order within 10hrs 30 mins</Text>
 
                      <View style={{flexDirection:"row",marginVertical:5,alignItems:"center",gap:5}}>
