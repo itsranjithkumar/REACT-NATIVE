@@ -12,6 +12,7 @@ const productInfoScreen = () => {
     const { width } = Dimensions.get("window");
     const Navigation = useNavigation();
     const height = (width * 100) / 100;
+    const dispatch = useDispatch();
     return (
         <ScrollView style={{ marginTop: 45, flex: 1, backgroundColor: "white" }} showsVerticalScrollIndicator={false}>
             <View
