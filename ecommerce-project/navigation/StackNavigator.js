@@ -99,8 +99,9 @@ const StackNavigator = () => {
         <Stack.Screen name="Info"
           component={productInfoScreen}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Add " component={AddressScreen} options = {{ headerShown: false}} />
+        /> 
+        <Stack.Screen name='Address' component={AddAddressScreen} options={{headerShown:false}} />
+        <Stack.Screen name='Add' component={AddressScreen} options={{headerShown:false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
