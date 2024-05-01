@@ -24,7 +24,7 @@ const productInfoScreen = () => {
             setAddedToCart(false);
         }, 60000)
 
-    }
+    };
     const cart = useSelector((state) => state.cart.cart);
     console.log(cart)
     return (
@@ -129,7 +129,7 @@ const productInfoScreen = () => {
             <Text style={{ color: "green", marginHorizontal: 10, fontWeight: "500" }}>IN Stock</Text>
 
             <Pressable
-                onPress={() => addItemsToCart(route?.params?.items)}
+                onPress={() => addItemsToCart(route?.params?.item)}
                 style={{
                     backgroundColor: "#FFC72C",
                     padding: 18,

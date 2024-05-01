@@ -19,7 +19,8 @@ import axios from "axios";
 import ProductItem from "../components/ProductItem";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useNavigation } from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
+import { BottomModal,ModalContent,SlideAnimation } from "react-native-modals";
 const Homescreen = () => {
   const list = [
     {
@@ -194,7 +195,7 @@ const Homescreen = () => {
   ];
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
-  const navigation = useNavigation();  
+  const navigation = useNavigation();
   // const [addresses, setAddresses] = useState([]);
   const [category, setCategory] = useState("jewelery");
   // const {userId,setUserId}=useContext(UserType);
@@ -225,9 +226,10 @@ const Homescreen = () => {
     setcompanyOpen(false);
   }, []);
 
-const cart = useSelector((state)=>state.cart.cart);
-console.log(cart)
+  const cart = useSelector((state) => state.cart.cart);
+  console.[modalVisible,setModalVisible] = useState(false);
   return (
+    <>
     <SafeAreaView
       style={{
         paddinTop: Platform.OS === "android" ? 40 : 0,
@@ -339,6 +341,17 @@ console.log(cart)
         >
           {deals.map((item, Index) => (
             <Pressable
+            onPress={()=> navigation.navigate("Info", {
+              id: item.id,
+              title: item.title,
+              price: item?.price,
+              carouselImages: item.carouselImages,
+              color: item?.color,
+              size: item?.size,
+              oldPrice: item?.oldPrice,
+              item: item,
+            })}
+
               style={{
                 marginvertical: 10,
                 flexDirection: "row",
@@ -369,20 +382,20 @@ console.log(cart)
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {offers.map((item, intex) => (
             <Pressable
-            onPress={() =>
-              navigation.navigate("Info", {
-                id: item.id,
-                title: item.title,
-                price: item?.price,
-                carouselImages: item.carouselImages,
-                color: item?.color,
-                size: item?.size,
-                oldPrice: item?.oldPrice,
-                item: item,
+              onPress={() =>
+                navigation.navigate("Info", {
+                  id: item.id,
+                  title: item.title,
+                  price: item?.price,
+                  carouselImages: item.carouselImages,
+                  color: item?.color,
+                  size: item?.size,
+                  oldPrice: item?.oldPrice,
+                  item: item,
 
-              })}
-                        
-            style={{
+                })}
+
+              style={{
                 marginVertical: 10,
                 alignItem: "center",
                 justifyContent: "center",
@@ -455,6 +468,27 @@ console.log(cart)
         </View>
       </ScrollView>
     </SafeAreaView>
+
+    <BottomModal>
+      onBackdropPress={() => setModalVisible(!modalVisible)}
+      swipeDirection={["up","down"]}
+      swipeThreshold={200}
+      modalAnimation={
+          new SlideAnimation({
+            slideFrom: "bottom"
+
+          })
+      }
+    onHardwareBackPress={() => setModalVisible(!modalVisible)}
+    visible={modalVisible}
+    onTouchOutside={() => setModalVisible(!modalVisible)}
+
+    <ModalContent>
+
+    </ModalContent>
+    </BottomModal>
+
+    </>
   );
 };
 
