@@ -16,7 +16,7 @@ const jwt = require('jsonwebtoken');
 
 // mongodb://localhost:27017/
 mongoose.connect("mongodb+srv://ranjithkumarms28:ranjith@cluster0.vr1k786.mongodb.net/" ,{
-   useNewUrlParser: true,
+    useNewUrlParser: true,
    useUnifiedTopology: true,
 }). then(() => {
    console.log("connected to MongoDB");
@@ -106,7 +106,7 @@ app.get("/verify/:token",async(req,res) => {
         //find the user with the giving verfication token
         const user = await User.findOne({verificationToken: token }); 
         if (!user){
-            return res.start(404).json({message:"Invalid verification token"})
+            return res.status(404).json({message:"Invalid verification token"})
         }
 
         //Mark the user as verfied
@@ -159,7 +159,7 @@ app.post("/login",async(req,res) => {
 })
 
 //endpoint to store a new address to the backend
-app.post ("/address",async(req,res) =>{
+app.post ("/addresses",async(req,res) =>{
     try{
         const {userId,address} = req.body
 
@@ -170,14 +170,16 @@ app.post ("/address",async(req,res) =>{
         }
 
         //add the new address to the user's addresses array
-        user.addresses.push(address )
+        user.address.push(address )
 
         //save the updated user in the backend
         await user.save();
 
         res.status(200).json({message:"Address created SuccessFully"})
 
+
     } catch(error){
+        console.log(error)
         res.status (500).json({message:"Error adding address"})
     }
 })
@@ -192,7 +194,7 @@ app.get ("/addresses/:userId",async(req,res)=> {
             return res.status(404).json({message:"User not found"})
         }
 
-        const addresses = user.addreses;
+        const addresses = user.address;
         res.status(200).json({addresses})
 
     } catch (error){
