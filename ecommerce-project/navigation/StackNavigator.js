@@ -25,7 +25,7 @@ const StackNavigator = () => {
           component={HomeScreen}
           options={{
             tabBarLabel: "Home",
-            tabbarLableStyle: { color: "#008E97" },
+            tabBarLabelStyle: { color: "#008E97" },
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -41,7 +41,7 @@ const StackNavigator = () => {
           component={HomeScreen}
           options={{
             tabBarLabel: "Profile",
-            tabbarLableStyle: { color: "#008E97" },
+            tabBarLabelStyle: { color: "#008E97" },
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
@@ -58,7 +58,7 @@ const StackNavigator = () => {
           component={HomeScreen}
           options={{
             tabBarLabel: "Cart",
-            tabbarLableStyle: { color: "#008E97" },
+            tabBarLabelStyle: { color: "#008E97" },
             headerShown: false,
             tabBarIcon: ({ focused }) =>
               focused ? (
