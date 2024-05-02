@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
            city:String,
            country:String,
            postalcode:String
-        }
+        },
     ],
     orders:[
         {
