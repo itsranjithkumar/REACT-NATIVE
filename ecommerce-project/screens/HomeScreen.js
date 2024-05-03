@@ -209,7 +209,8 @@ const HomeScreen = () => {
   const [category, setCategory] = useState("jewelery");
   const { userId, setUserId } = useContext(UserType);
   const [selectedAddress,setSelectedAddress] = useState("");
-
+  console.log(selectedAddress)
+ 
   const [items, setItems] = useState([
     { label: "Men's clothing", value: "men's clothing" },
     { label: "jewelery", value: "jewelery" },
@@ -266,7 +267,7 @@ const HomeScreen = () => {
     fetchUser();
   }, []);
 
-  console.log("address", addresses);
+  // console.log("address", addresses);
 
   // console.log("products", products);
 
@@ -322,9 +323,14 @@ const HomeScreen = () => {
             }}
           >
             <Ionicons name="location-outline" size={24} color="black" />
-            <Pressable onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={{ fontSize: 13, fontWeight: "500" }}>
-                Deliver to Ranjith Kumar - Bangalore 560054
+            
+            <Pressable  onPress={() => setModalVisible(!modalVisible)}>
+            <Text>
+              Deliver to {selectedAddress?.name} - {selectedAddress?.street}
+            </Text>
+
+            <Text style={{ fontSize: 13, fontWeight: "500" }}>
+                Add a Address
               </Text>
             </Pressable>
 
@@ -578,6 +584,7 @@ const HomeScreen = () => {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {addresses?.map((item, index) => (
               <Pressable 
+              onPress={() => setSelectedAddress(item)}
               style={{
                 width: 140,
                 height: 140,
@@ -588,7 +595,8 @@ const HomeScreen = () => {
                 alignItems: "center",
                   gap: 3,
                   marginRight: 15,
-                  marginTop:10
+                  marginTop:10,
+                  backgroundColor:selectedAddress === item ? "#FBCEB1" : "White"
               }}
               >
                 <View
