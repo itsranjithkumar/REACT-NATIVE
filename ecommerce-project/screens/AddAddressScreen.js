@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, ScrollView, Pressable, TextInput } from 'react-
 import React, { useEffect, useState, useContext } from 'react'
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { UserType } from '../UserContext';
@@ -24,7 +25,7 @@ const AddAddressScreen = () => {
     try {
 
 
-        const response = await axios.get('http://192.168.146.194:8000/addresses/6631f988e0e1c6e25e6b92fa')
+        const response = await axios.get(`http://192.168.146.194:8000/addresses/${userId}`)
         const { addresses } = response.data;
 
 
@@ -76,11 +77,54 @@ const AddAddressScreen = () => {
 
         <Pressable>
           {/* all the added adresses */}
+          {addresses?.map((item,index)=> (
+
+             <Pressable style={{borderWidth:1,borderColor:"#D0D0D0",padding:10,flexDirection:"column",gap:5,marginVertical:10}}>
+              <View style ={{flexDirection:"row",alignItems:"center",gap:3}}>
+                <Text style={{fontSize:15,fontWeight:"bold "}}>{item?.name}</Text>
+                <Entypo name="location-pin" size={24} color="red" />
+              </View>
+
+              <Text style={{fontSize:15,color:"#181818"}}>{item?.houseNo},{item?.landmark}</Text>
+
+              <Text style={{fontSize:15,color:"#181818"}}>{item?.street}</Text>
+
+              <Text style={{fontSize:15,color:"#181818"}}>India,Erode</Text>
+
+              <Text style={{fontSize:15,color:"#181818"}}>phone No :{item?.mobileNo}</Text>
+
+              <Text style={{fontSize:15,color:"#181818"}}>pin code:{item?.postalCode}</Text>
+
+              <View style={{flexDirection:"row",alignItems:"center",gap:10,marginTop:10}}>
+                <Pressable style={{backgroundColor:"#F5F5F5",paddingHorizontal:10,paddingVertical:6,borderRadius:5,borderWidth:0.9,borderColor:"#D0D0D0"}}>
+                   <Text>Edit</Text>
+
+
+                </Pressable>
+
+                <Pressable style={{backgroundColor:"#F5F5F5",paddingHorizontal:10,paddingVertical:6,borderRadius:5,borderWidth:0.9,borderColor:"#D0D0D0"}}>
+                <Text>Remove</Text>
+
+                </Pressable>
+
+                <Pressable style={{backgroundColor:"#F5F5F5",paddingHorizontal:10,paddingVertical:6,borderRadius:5,borderWidth:0.9,borderColor:"#D0D0D0"}}>
+                <Text>Set as Default</Text>
+
+                </Pressable> 
+
+
+
+
+              </View>
+             </Pressable>
+          
+          
+          ))}
         </Pressable>
       </View>
     </ScrollView>
-  )
-}
+  );
+};
 
 export default AddAddressScreen
 
