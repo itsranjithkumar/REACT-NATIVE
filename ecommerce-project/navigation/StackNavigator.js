@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
-import productInfoScreen from "../screens/productInfoScreen";
+import productInfoScreen from "../screens/ProductInfoScreen";
 import AddAddressScreen from "../screens/AddAddressScreen";
 import AddressScreen from "../screens/AddressScreen";
 

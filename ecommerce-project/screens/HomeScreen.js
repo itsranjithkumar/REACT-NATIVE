@@ -216,7 +216,7 @@ const HomeScreen = () => {
         setProducts(response.data);
 
       } catch (error) {
-        console.log("error", error);
+        console.log("error2", error);
       }
 
 
@@ -245,14 +245,14 @@ const HomeScreen = () => {
     try {
 
 
-        const response = await axios.get('http://192.168.146.194:8000/addresses/${userId}')
+        const response = await axios.get(`http://192.168.146.194:8000/addresses/${userId}`)
         const { addresses } = response.data;
-
+        console.log("gokul",response.data)
 
         setAddresses(addresses)
       }
     catch (error) {
-      console.log("error", error)
+      console.log("error1", error)
     }
   }
 
