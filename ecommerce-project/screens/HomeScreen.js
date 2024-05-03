@@ -1,5 +1,5 @@
 import { Image, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState,useContext } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AntDesign } from '@expo/vector-icons';
 
@@ -16,6 +16,9 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { BottomModal, ModalContent, SlideAnimation } from 'react-native-modals';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwtDecode from 'jwt-decode';
+import { UserType } from '../UserContext';
 
 const HomeScreen = () => {
   const list = [
@@ -193,7 +196,10 @@ const HomeScreen = () => {
   const navigation = useNavigation()
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
+  const [addresses,setAddresses] = useState([]);
   const [category, setCategory] = useState("jewelery");
+  const { userId, setUserId } = useContext(UserType);
+
   const [items, setItems] = useState([
     { label: "Men's clothing", value: "men's clothing" },
     { label: "jewelery", value: "jewelery" },
@@ -226,9 +232,42 @@ const HomeScreen = () => {
 
   const cart = useSelector((state) => state.cart.cart);
   const [modalVisible, setModalVisible] = useState(false);
+  useEffect(()=>{
+    if(userId){
 
-  console.log(cart)
-  console.log("aaaaaaaaaaaaaaaaaa")
+        fetchAddresses();
+    }
+
+  
+  },[userId,modalVisible])
+
+  const fetchAddresses = async () => {
+    try {
+
+
+        const response = await axios.get('http://192.168.146.194:8000/addresses/${userId}')
+        const { addresses } = response.data;
+
+
+        setAddresses(addresses)
+      }
+    catch (error) {
+      console.log("error", error)
+    }
+  }
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = await AsyncStorage.getItem("authToken");
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.userId;
+      setUserId(userId)
+    }
+
+    fetchUser();
+  }, []);
+
+  console.log("address",addresses)
 
 
   // console.log("products", products);
