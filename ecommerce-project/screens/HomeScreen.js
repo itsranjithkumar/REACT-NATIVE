@@ -208,6 +208,7 @@ const HomeScreen = () => {
   const [addresses, setAddresses] = useState([]);
   const [category, setCategory] = useState("jewelery");
   const { userId, setUserId } = useContext(UserType);
+  const [selectedAddress,setSelectedAddress] = useState("");
 
   const [items, setItems] = useState([
     { label: "Men's clothing", value: "men's clothing" },
@@ -575,53 +576,59 @@ const HomeScreen = () => {
           </View>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {addresses?.map((item, index) => {
-              <Pressable
-                style={{
-                  width: 140,
-                  height: 140,
-                  borderColor: "#D0D0D0",
-                  borderWidth: 1,
-                  padding: 10,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: 3,
-                  marginRight: 15,
-                }}
-              >
-                <View
-                  style={{ flexDirection: "row", alignItems: "center", gap: 3 }}
-                >
-                  <Text style={{ fontSize: 15, fontWeight: "bold " }}>
-                    {item?.name}
-                  </Text>
-                  <Entypo name="location-pin" size={24} color="red" />
-                </View>
-              </Pressable>;
-            })}
-
-            <Pressable
-              onPress={() => {
-                setModalVisible(false);
-                navigation.navigate("Address");
-              }}
+            {addresses?.map((item, index) => (
+              <Pressable 
               style={{
                 width: 140,
                 height: 140,
-                borderColor: "#DODODO",
-                marginTop: 10,
+                borderColor: "#D0D0D0",
                 borderWidth: 1,
                 padding: 10,
                 justifyContent: "center",
                 alignItems: "center",
+                  gap: 3,
+                  marginRight: 15,
+                  marginTop:10
+              }}
+              >
+                <View
+                  style={{ flexDirection: "row", alignItems: "center", gap: 3 }}
+                >
+                  <Text style={{fontSize:13, fontWeight:"bold"}}>
+                    {item?.name}
+                  </Text>
+                <Entypo name="location-pin" size={24} color="red" />
+              </View>
+
+              <Text numberOfLines={1} style={{width:130,fontSize:13,textAlign:"center"}}>{item?.houseNo},{items?.landmark}</Text>
+
+              <Text numberOfLines={1}  style={{width:130,fontSize:13,textAlign:"center"}}>{item?.street}</Text>
+
+              <Text numberOfLines={1}  style={{width:130,fontSize:13,textAlign:"center"}}>India,Erode</Text>
+              </Pressable>
+            ))}
+
+            <Pressable 
+              onPress={() => {
+                setModalVisible(false);
+                navigation.navigate("Address");
+              }}
+            style={{
+              width: 140,
+              height: 140,
+                borderColor: "#D0D0D0",
+              borderWidth: 1,
+                padding: 10,
+              justifyContent: "center",
+              alignItems: "center",
               }}
             >
               <Text
-                style={{
+              style={{
                   textAlign: "center",
                   color: "#0066b2",
                   fontWeight: "500",
-                }}
+              }}
               >
                 Add an Address or pick-up point
               </Text>
