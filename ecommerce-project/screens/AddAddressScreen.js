@@ -34,7 +34,7 @@ const AddAddressScreen = () => {
     catch (error) {
       console.log("error", error)
     }
-  }
+  };
   //refersh the addresses when the component comes to the focus ie basically when we navigate back
   useFocusEffect(
     useCallback(() => {
