@@ -202,3 +202,49 @@ app.get ("/addresses/:userId",async(req,res)=> {
         res.status(500).json({message:"Error retrieveing the addresses"})
     }
 })
+
+
+//endpoint to store all the 0rders
+app.post("/order",async(req,res)=> {
+
+try{
+    const {userId,cartItem,totalPrice,shipingAddress,paymentMethod} = req.body
+
+    const user = await User,finById(userId);
+    if(user){
+        return res.status(404).json({message:"user not found"})
+    }
+
+    //create an array of product objects from the cart Items
+    const product= cartItems.map((item)=> ({
+
+        name:item?.name,
+        quantity:item.quantity,
+        Price:item.price,
+        image:item?.image
+    }));  
+    
+    //create a new Order
+    const order = new Order({
+        user:userId,
+        products:Products,
+        totalPrice: totalPrice,
+        shippingAddress: shippingAddress,
+        paymentMethod:paymentMethod
+
+    })
+
+    await order.save(),
+
+    res.status(200).json({message:"order created successfully!"})
+    
+} catch (error) {
+    console.log ("error creating order", error);
+    res.status(500).json{{message:"Error creating order"}};
+}
+    
+});
+
+
+
+

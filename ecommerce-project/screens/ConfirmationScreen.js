@@ -4,6 +4,7 @@ import axios from "axios";
 import { UserType } from "../UserContext";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const ConfirmationScreen = () => {
   const steps = [
@@ -14,9 +15,13 @@ const ConfirmationScreen = () => {
   ];
   const [currentStep, setCurrentStep] = useState(0);
   const [addresses, setAddresses] = useState([]);
-  const [selectedAddress, setSelectedAdress] = useState("");
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   const { userId, setUserId } = useContext(UserType);
+  const cart = useSelector((state) => state.cart.cart);
+  const total = cart
+    ?.map((item) => item.price * item.quantity)
+    .reduce((curr, prev) => curr + prev, 0);
 
   useEffect(() => {
     fetchAddresses();
@@ -36,9 +41,9 @@ const ConfirmationScreen = () => {
     }
   };
 
-  const [setSelectedAddressddress, SelectedAddress] = useState("");
   const [option, setOption] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+
   return (
     <ScrollView style={{ marginTop: 55 }}>
       <View style={{ flex: 1, paddingHorizontal: 28, paddingTop: 40 }}>
@@ -51,7 +56,10 @@ const ConfirmationScreen = () => {
           }}
         >
           {steps?.map((step, index) => (
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <View
+              style={{ justifyContent: "center", alignItems: "center" }}
+              key={index}
+            >
               {index > 0 && (
                 <View
                   style={[
@@ -105,6 +113,7 @@ const ConfirmationScreen = () => {
           <Pressable>
             {addresses?.map((item, index) => (
               <Pressable
+                key={index}
                 style={{
                   borderWidth: 1,
                   borderColor: "#D0D0D0",
@@ -121,7 +130,7 @@ const ConfirmationScreen = () => {
                   <FontAwesome5 name="dot-circle" size={20} color="#008397" />
                 ) : (
                   <Entypo
-                    onPress={() => setSelectedAdress(item)}
+                    onPress={() => setSelectedAddress(item)}
                     name="circle"
                     size={20}
                     color="gray"
@@ -364,12 +373,7 @@ const ConfirmationScreen = () => {
         </View>
       )}
 
-     {currentStep === 3 && selectedOption === "cash" && (
-
-         <View style ={{marginHorizontal:20}}>
-            <Text style={{fontSize:20 ,fontWeight:"bold"}}>Order Now</Text>
-
-            {currentStep === 3 && selectedOption === "cash" && (
+      {currentStep === 3 && selectedOption === "cash" && (
         <View style={{ marginHorizontal: 20 }}>
           <Text style={{ fontSize: 20, fontWeight: "bold" }}>Order Now</Text>
 
@@ -384,7 +388,8 @@ const ConfirmationScreen = () => {
               borderColor: "#D0D0D0",
               borderWidth: 1,
               marginTop: 10,
-            }}>
+            }}
+          >
             <View>
               <Text style={{ fontSize: 17, fontWeight: "bold" }}>
                 Save 5% and never run out
@@ -397,20 +402,91 @@ const ConfirmationScreen = () => {
             <MaterialIcons
               name="keyboard-arrow-right"
               size={24}
-              color="black"/>
+              color="black"
+            />
           </View>
 
+          <View
+            style={{
+              backgroundColor: "white",
+              padding: 8,
+              borderColor: "#D0D0D0",
+              borderWidth: 1,
+              marginTop: 10,
+            }}
+          >
+            <Text>Shipping to {selectedAddress?.name} </Text>
 
-         </View>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: 8,
+              }}
+            >
+              <Text style={{ fontSize: 16, fontWeight: "500", color: "gray" }}>
+                Items
+              </Text>
 
+              <Text style={{ color: "gray", fontSize: 16 }}>₹{total}</Text>
+            </View>
 
-     )}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: 8,
+              }}
+            >
+              <Text style={{ fontSize: 16, fontWeight: "500", color: "gray" }}>
+                delivery
+              </Text>
 
+              <Text style={{ color: "gray", fontSize: 16 }}>₹0</Text>
+            </View>
 
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: 8,
+              }}
+            >
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                Order Total
+              </Text>
 
+              <Text
+                style={{ color: "#C60C30", fontSize: 17, fontWeight: "bold" }}
+              >
+                ₹{total}
+              </Text>
+            </View>
+          </View>
 
+          <View
+            style={{
+              backgroundColor: "white",
+              padding: 8,
+              borderColor: "#D0D0D0",
+              borderWidth: 1,
+              marginTop: 10,
+            }}
+          >
+            <Text style={{fontSize:16,color:"gray"}}>Pay with</Text>
+
+            <Text style={{fontSize:16,fontWeight:"600",marginTop:7}}>Pay on delivery (Cash)</Text>
+          </View>
+
+          <Pressable style={{backgroundColor:"#FFC72C",padding:10,borderRadius:20,justifyContent:"center",alignItems:"center",marginTop:20}}>
+            <Text>Price your order</Text>
+          </Pressable>
+        </View>
+      )}
     </ScrollView>
-    
   );
 };
 
