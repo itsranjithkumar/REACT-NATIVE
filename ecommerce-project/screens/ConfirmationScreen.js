@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserType } from "../UserContext";
 import { Entypo } from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 const ConfirmationScreen = () => {
   const steps = [
@@ -24,7 +25,7 @@ const ConfirmationScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.146.194:8000/addresses/${userId}`
+        `http://192.168.182.194:8000/addresses/${userId}`
       );
       const { addresses } = response.data;
       console.log(addresses, "hhhhhhhhhhhhhhhhhh");
@@ -35,7 +36,9 @@ const ConfirmationScreen = () => {
     }
   };
 
-const [setSelectedAddressddress,SelectedAddress] = useState("")
+  const [setSelectedAddressddress, SelectedAddress] = useState("");
+  const [option, setOption] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
   return (
     <ScrollView style={{ marginTop: 55 }}>
       <View style={{ flex: 1, paddingHorizontal: 28, paddingTop: 40 }}>
@@ -106,18 +109,6 @@ const [setSelectedAddressddress,SelectedAddress] = useState("")
                   borderWidth: 1,
                   borderColor: "#D0D0D0",
                   padding: 10,
-                  FlexDirection: "row",
-                  alignItems:"center",
-                  gap: 5,
-                  paddingBottom:17,
-                  marginVertical:7  
-                }} 
-                
-                
-                style={{
-                  borderWidth: 1,
-                  borderColor: "#D0D0D0",
-                  padding: 10,
                   flexDirection: "row",
                   alignItems: "center",
                   gap: 5,
@@ -127,7 +118,7 @@ const [setSelectedAddressddress,SelectedAddress] = useState("")
                 }}
               >
                 {selectedAddress && selectedAddress._id === item?._id ? (
-                  <FontAwesome name="dot-circle" size={20} color="#008397" />
+                  <FontAwesome5 name="dot-circle" size={20} color="#008397" />
                 ) : (
                   <Entypo
                     onPress={() => setSelectedAdress(item)}
@@ -242,9 +233,184 @@ const [setSelectedAddressddress,SelectedAddress] = useState("")
               </Pressable>
             ))}
           </Pressable>
+          <Text></Text>
         </View>
       )}
+
+      {currentStep == 1 && (
+        <View style={{ marginHorizontal: 20 }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            Choose your delivery options
+          </Text>
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              backgroundColor: "white",
+              padding: 8,
+              gap: 7,
+              borderColor: "#D0D0D0",
+              borderWidth: 1,
+              marginTop: 10,
+            }}
+          >
+            {option ? (
+              <FontAwesome5 name="dot-circle" size={20} color="#008397" />
+            ) : (
+              <Entypo
+                onPress={() => setOption(!option)}
+                name="circle"
+                size={20}
+                color="gray"
+              />
+            )}
+
+            <Text style={{ flex: 1 }}>
+              <Text style={{ color: "green", fontWeight: "500" }}>
+                Tomorrow by 10pm
+              </Text>
+              {""}- FREE delivery with your Prime membership
+            </Text>
+          </View>
+
+          <Pressable
+            onPress={() => setCurrentStep(2)}
+            style={{
+              backgroundColor: "#FFC72C",
+              padding: 10,
+              borderRadius: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 15,
+            }}
+          >
+            <Text>Continue</Text>
+          </Pressable>
+        </View>
+      )}
+
+      {currentStep == 2 && (
+        <View style={{ marginHorizontal: 20 }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            Select your payment Method
+          </Text>
+
+          <View
+            style={{
+              backgroundColor: "white",
+              padding: 8,
+              borderColor: "#D0D0D0",
+              borderWidth: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 7,
+              marginTop: 12,
+            }}
+          >
+            {selectedOption === "cash" ? (
+              <FontAwesome5 name="dot-circle" size={20} color="#008397" />
+            ) : (
+              <Entypo
+                onPress={() => setSelectedOption("cash")}
+                name="circle"
+                size={20}
+                color="gray"
+              />
+            )}
+
+            <Text>Cash on Delivery</Text>
+          </View>
+
+          <View
+            style={{
+              backgroundColor: "white",
+              padding: 8,
+              borderColor: "#D0D0D0",
+              borderWidth: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 7,
+              marginTop: 12,
+            }}
+          >
+            {selectedOption === "card" ? (
+              <FontAwesome5 name="dot-circle" size={20} color="#008397" />
+            ) : (
+              <Entypo
+                onPress={() => setSelectedOption("card")}
+                name="circle"
+                size={20}
+                color="gray"
+              />
+            )}
+
+            <Text>UPI / Credit or debit card</Text>
+          </View>
+
+          <Pressable
+            onPress={() => setCurrentStep(3)}
+            style={{
+              backgroundColor: "#FFC72C",
+              padding: 10,
+              borderRadius: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 15,
+            }}
+          >
+            <Text>Continue</Text>
+          </Pressable>
+        </View>
+      )}
+
+     {currentStep === 3 && selectedOption === "cash" && (
+
+         <View style ={{marginHorizontal:20}}>
+            <Text style={{fontSize:20 ,fontWeight:"bold"}}>Order Now</Text>
+
+            {currentStep === 3 && selectedOption === "cash" && (
+        <View style={{ marginHorizontal: 20 }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Order Now</Text>
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 8,
+              backgroundColor: "white",
+              padding: 8,
+              borderColor: "#D0D0D0",
+              borderWidth: 1,
+              marginTop: 10,
+            }}>
+            <View>
+              <Text style={{ fontSize: 17, fontWeight: "bold" }}>
+                Save 5% and never run out
+              </Text>
+              <Text style={{ fontSize: 15, color: "gray", marginTop: 5 }}>
+                Turn on auto deliveries
+              </Text>
+            </View>
+
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={24}
+              color="black"/>
+          </View>
+
+
+         </View>
+
+
+     )}
+
+
+
+
     </ScrollView>
+    
   );
 };
 
