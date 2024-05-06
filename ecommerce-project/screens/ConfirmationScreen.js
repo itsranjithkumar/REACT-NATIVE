@@ -4,7 +4,9 @@ import axios from "axios";
 import { UserType } from "../UserContext";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { cleanCart } from "../redux/CartReducer";
+import { useNavigation } from "@react-navigation/native";
 
 const ConfirmationScreen = () => {
   const steps = [
@@ -13,6 +15,7 @@ const ConfirmationScreen = () => {
     { title: "Payment", content: "Payment Details" },
     { title: "Place Order", content: "Order Summary" },
   ];
+  const navigation = useNavigation();
   const [currentStep, setCurrentStep] = useState(0);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState("");
@@ -40,9 +43,35 @@ const ConfirmationScreen = () => {
       console.log("error", error);
     }
   };
-
+  const dispatch = useDispatch();
   const [option, setOption] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+  const handlePlaceOrder = async () => {
+    try {
+      const orderData = {
+        userId: userId,
+        cartItems: cart,
+        totalPrice: total,
+        shippingAddress: selectedAddress,
+        paymentMethod: selectedOption,
+      };
+
+      const response = await axios.post(
+        "http://192.168.182.194:8000/orders",
+        orderData
+      );
+
+      if (response.status === 200) {
+        navigation.navigate("Order");
+        dispatch(cleanCart());
+        console.log("order created successfully", response.data.order);
+      } else {
+        console.log("error creating cart", response.data);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   return (
     <ScrollView style={{ marginTop: 55 }}>
@@ -476,12 +505,24 @@ const ConfirmationScreen = () => {
               marginTop: 10,
             }}
           >
-            <Text style={{fontSize:16,color:"gray"}}>Pay with</Text>
+            <Text style={{ fontSize: 16, color: "gray" }}>Pay with</Text>
 
-            <Text style={{fontSize:16,fontWeight:"600",marginTop:7}}>Pay on delivery (Cash)</Text>
+            <Text style={{ fontSize: 16, fontWeight: "600", marginTop: 7 }}>
+              Pay on delivery (Cash)
+            </Text>
           </View>
 
-          <Pressable style={{backgroundColor:"#FFC72C",padding:10,borderRadius:20,justifyContent:"center",alignItems:"center",marginTop:20}}>
+          <Pressable
+            onPress={handlePlaceOrder}
+            style={{
+              backgroundColor: "#FFC72C",
+              padding: 10,
+              borderRadius: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 20,
+            }}
+          >
             <Text>Price your order</Text>
           </Pressable>
         </View>

@@ -20,10 +20,10 @@ mongoose.connect("mongodb+srv://ranjithkumarms28:ranjith@cluster0.vr1k786.mongod
    useUnifiedTopology: true,
 }). then(() => {
    console.log("connected to MongoDB");
-})
-  .catch((err) => {
+    })
+    .catch((err) => {
     console.log("Error connecting to mongoDB", err);
-});
+    });
 
 app.listen(port, () => {
     console.log("Server is running on port 8000");
@@ -35,7 +35,7 @@ const Order = require('./models/order');
 
 //function to send verification email to the user
 const sendVerificationEmail = async (email, verficationToken) => {
-      //create a nodemailer transporter
+    //create a nodemailer transporter
 
       const transporter = modemailer.createTransport({
         //configure the email service
@@ -43,7 +43,7 @@ const sendVerificationEmail = async (email, verficationToken) => {
         auth: {
              user:"ranjithkumarms28@gmail.com",
              pass:"ydyi gzdi qovv nogh"
-       }
+        }
     });
 
     //compose the email message
@@ -52,15 +52,15 @@ const sendVerificationEmail = async (email, verficationToken) => {
         to:email,
         subject:"Email Verification",
         text : `Please click the following link to verify your email: http://192.168.182.194:8000/verify/${verficationToken}`
-};
+    };
 
 
-//send the email
+    //send the email
 try{
-   await transporter.sendMail(mailOptions);
+        await transporter.sendMail(mailOptions);
   }  catch(error){
      console.log ("Error sending verification email",error);
-   }
+    }
 
 };
 
@@ -118,7 +118,7 @@ app.get("/verify/:token",async(req,res) => {
         res.status(200).json({message:"Email verified successfully"})
     } catch(error){
         res.status(500).json({ message: "Email verification Failed" });
-}
+    }
 });
 
 const generateSecretKey = () => {
@@ -205,46 +205,67 @@ app.get ("/addresses/:userId",async(req,res)=> {
 
 
 //endpoint to store all the 0rders
-app.post("/order",async(req,res)=> {
-
-try{
-    const {userId,cartItem,totalPrice,shipingAddress,paymentMethod} = req.body
-
-    const user = await User,finById(userId);
-    if(user){
-        return res.status(404).json({message:"user not found"})
-    }
-
-    //create an array of product objects from the cart Items
-    const product= cartItems.map((item)=> ({
-
-        name:item?.name,
-        quantity:item.quantity,
-        Price:item.price,
-        image:item?.image
-    }));  
-    
-    //create a new Order
-    const order = new Order({
-        user:userId,
-        products:Products,
+app.post("/orders", async (req, res) => {
+    try {
+      const { userId, cartItems, totalPrice, shippingAddress, paymentMethod } =
+        req.body;
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      const products = cartItems.map((item) => ({
+        name: item?.title,
+        quantity: item.quantity,
+        price: item.price,
+        image: item?.image,
+      }));
+      const order = new Order({
+        user: userId,
+        products: products,
         totalPrice: totalPrice,
         shippingAddress: shippingAddress,
-        paymentMethod:paymentMethod
+        paymentMethod: paymentMethod,
+      });
 
-    })
+      await order.save();
 
-    await order.save(),
-
-    res.status(200).json({message:"order created successfully!"})
-    
-} catch (error) {
-    console.log ("error creating order", error);
-    res.status(500).json{{message:"Error creating order"}};
-}
-    
+    res.status(200).json({ message: "Order created successfully!" });
+  } catch (error) {
+    console.log("error creating orders", error);
+    res.status(500).json({ message: "Error creating orders" });
+  }
 });
 
+// get the user profile
+app.get("/profile/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+  
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.status(200).json({ user });
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieving the user profile" });
+    }
+  });
 
-
-
+  app.get("/orders/:userId",async(req,res) => {
+    try{
+      const userId = req.params.userId;
+  
+      const orders = await Order.find({user:userId}).populate("user");
+  
+      if(!orders || orders.length === 0){
+        return res.status(404).json({message:"No orders found for this user"})
+      }
+  
+      res.status(200).json({ orders });
+    } catch(error){
+      res.status(500).json({ message: "Error"});
+    }
+  })

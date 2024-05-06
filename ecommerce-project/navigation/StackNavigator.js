@@ -8,14 +8,14 @@ import HomeScreen from "../screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import productInfoScreen from "../screens/ProductInfoScreen";
 import AddAddressScreen from "../screens/AddAddressScreen";
 import AddressScreen from "../screens/AddressScreen";
 import CartScreen from "../screens/CartScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ConfirmationScreen from "../screens/ConfirmationScreen";
-
+import OrderScreen from "../screens/OrderScreen";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -55,7 +55,6 @@ const StackNavigator = () => {
           }}
         />
 
-
         <Tab.Screen
           name="Cart"
           component={CartScreen}
@@ -71,7 +70,6 @@ const StackNavigator = () => {
               ),
           }}
         />
-
       </Tab.Navigator>
     );
   }
@@ -99,14 +97,31 @@ const StackNavigator = () => {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Info"
+        <Stack.Screen
+          name="Info"
           component={productInfoScreen}
           options={{ headerShown: false }}
-        /> 
-        <Stack.Screen name='Address' component={AddAddressScreen} options={{headerShown:false}} />
-        <Stack.Screen name='Add' component={AddressScreen} options={{headerShown:false}} />
-        <Stack.Screen name='Confirm' component={ConfirmationScreen} options={{headerShown:false}} />
-
+        />
+        <Stack.Screen
+          name="Address"
+          component={AddAddressScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Add"
+          component={AddressScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Confirm"
+          component={ConfirmationScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Order"
+          component={OrderScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

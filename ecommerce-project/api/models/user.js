@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
            landmark:String,
            city:String,
            country:String,
-           postalcode:String
+           postalCode:String
         },
     ],
     orders:[
