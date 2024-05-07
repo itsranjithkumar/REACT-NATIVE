@@ -33,7 +33,7 @@ const ConfirmationScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.182.194:8000/addresses/${userId}`
+        `http://192.168.43.194:8000/addresses/${userId}`
       );
       const { addresses } = response.data;
       console.log(addresses, "hhhhhhhhhhhhhhhhhh");
@@ -57,7 +57,7 @@ const ConfirmationScreen = () => {
       };
 
       const response = await axios.post(
-        "http://192.168.182.194:8000/orders",
+        "http://192.168.43.194:8000/orders",
         orderData
       );
 
@@ -72,6 +72,13 @@ const ConfirmationScreen = () => {
       console.log("error", error);
     }
   };
+  const pay = async () => {
+    try{
+
+  }catch(error){
+    console.log("error",error)
+  }
+  }
 
   return (
     <ScrollView style={{ marginTop: 55 }}>
@@ -376,13 +383,35 @@ const ConfirmationScreen = () => {
               <FontAwesome5 name="dot-circle" size={20} color="#008397" />
             ) : (
               <Entypo
-                onPress={() => setSelectedOption("card")}
+                onPress={() => {
+                  
+                  setSelectedOption("card");
+                  Alert.alert("UPI/Debit card","pay Online",[
+
+                    {
+                      text:"Cancel",
+                      OnPress: () => console.log("Cancel is pressed"),
+
+                    },
+                    {
+                      text: "OK",
+                      onPress: () => pay(),
+                    },
+
+                  ]);
+                }}
                 name="circle"
                 size={20}
                 color="gray"
               />
             )}
 
+
+                  
+
+                  
+
+                
             <Text>UPI / Credit or debit card</Text>
           </View>
 
@@ -523,7 +552,7 @@ const ConfirmationScreen = () => {
               marginTop: 20,
             }}
           >
-            <Text>Price your order</Text>
+            <Text>Place your order</Text>
           </Pressable>
         </View>
       )}
